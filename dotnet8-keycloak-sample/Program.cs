@@ -29,9 +29,9 @@ namespace dotnet8_keycloak_sample
                 })
                 .AddOpenIdConnect(options =>
                 {
-                    options.Authority = "http://localhost:8080/realms/myrealm";
-                    options.ClientId = "myclient";
-                    options.ClientSecret = "6WB0tAWZGm1m9j4HEpF4ucE7zwWcRiYM";
+                    options.Authority = builder.Configuration["OpenIDConnect:Authority"];
+                    options.ClientId = builder.Configuration["OpenIDConnect:ClientId"]; ;
+                    options.ClientSecret = builder.Configuration["OpenIDConnect:ClientSecret"]; ;
                     options.ResponseType = OpenIdConnectResponseType.Code;
                     options.Scope.Add(OpenIdConnectScope.OpenIdProfile);
                     options.SaveTokens = true;
