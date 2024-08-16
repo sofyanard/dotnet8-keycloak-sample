@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using dotnet8_keycloak_sample.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotnet8_keycloak_sample.Controllers
@@ -18,6 +19,7 @@ namespace dotnet8_keycloak_sample.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();

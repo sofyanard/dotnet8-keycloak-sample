@@ -1,6 +1,9 @@
 namespace dotnet8_keycloak_sample
 {
     using Microsoft.Extensions.Logging;
+    using Microsoft.AspNetCore.Authentication.Cookies;
+    using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+    using Microsoft.IdentityModel.Tokens;
 
     public class Program
     {
@@ -11,6 +14,35 @@ namespace dotnet8_keycloak_sample
             logger.LogInformation("Hello World! Logging is {Description}.", "fun");
 
             var builder = WebApplication.CreateBuilder(args);
+
+            // Add OpenID Connect authentication
+            builder.Services
+                .AddAuthentication(options =>
+                    {
+                        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                        options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+                    })
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Account/Login";
+                })
+                .AddOpenIdConnect(options =>
+                {
+                    options.Authority = "http://localhost:8080/realms/myrealm";
+                    options.ClientId = "myclient";
+                    options.ClientSecret = "6WB0tAWZGm1m9j4HEpF4ucE7zwWcRiYM";
+                    options.ResponseType = "code";
+                    options.SaveTokens = true;
+                    options.Scope.Add("openid");
+                    options.CallbackPath = "/login-callback"; // Update callback path
+                    options.SignedOutCallbackPath = "/logout-callback"; // Update signout callback path
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        NameClaimType = "preferred_username",
+                        RoleClaimType = "roles"
+                    };
+                    options.RequireHttpsMetadata = false;
+                });
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -26,6 +58,7 @@ namespace dotnet8_keycloak_sample
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
