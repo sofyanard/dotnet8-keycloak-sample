@@ -45,7 +45,15 @@ namespace dotnet8_keycloak_sample.Controllers
             _logger.LogInformation("Refresh token: {0}", refreshToken);
 
             // Redirect the user to the desired page
-            return RedirectToAction("Privacy");
+            return RedirectToAction("Home", "Privacy");
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            _logger.LogInformation("Logging out...");
+            await HttpContext.SignOutAsync();
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
