@@ -30,13 +30,13 @@ namespace dotnet8_keycloak_sample
                 .AddOpenIdConnect(options =>
                 {
                     options.Authority = builder.Configuration["OpenIDConnect:Authority"];
-                    options.ClientId = builder.Configuration["OpenIDConnect:ClientId"]; ;
-                    options.ClientSecret = builder.Configuration["OpenIDConnect:ClientSecret"]; ;
+                    options.ClientId = builder.Configuration["OpenIDConnect:ClientId"];
+                    options.ClientSecret = builder.Configuration["OpenIDConnect:ClientSecret"];
                     options.ResponseType = OpenIdConnectResponseType.Code;
                     options.Scope.Add(OpenIdConnectScope.OpenIdProfile);
                     options.SaveTokens = true;
-                    options.CallbackPath = "/account/login-callback"; // Update callback path
-                    options.SignedOutCallbackPath = "/account/logout-callback"; // Update signout callback path
+                    options.CallbackPath = "/login-callback"; // Update callback path
+                    options.SignedOutCallbackPath = "/logout-callback"; // Update signout callback path
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         NameClaimType = "preferred_username",
@@ -66,6 +66,30 @@ namespace dotnet8_keycloak_sample
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            // Add routes for callback handling
+            app.Map("/login-callback", loginCallbackApp =>
+            {
+                loginCallbackApp.Run(async context =>
+                {
+                    // Handle the callback from Keycloak after successful authentication
+                    await context.Response.WriteAsync("Authentication successful");
+                });
+            });
+
+            app.Map("/logout-callback", logoutCallbackApp =>
+            {
+                logoutCallbackApp.Run(async context =>
+                {
+                    // Handle the callback from Keycloak after sign-out
+                    await context.Response.WriteAsync("Sign-out successful");
+                });
+            });
+
+            app.MapControllerRoute(
+                name: "login-callback",
+                pattern: "login-callback",
+                defaults: new { controller = "Account", action = "LoginCallback" });
 
             app.Run();
         }
