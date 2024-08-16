@@ -1,19 +1,18 @@
-using System.Diagnostics;
-using dotnet8_keycloak_sample.Models;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+﻿using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotnet8_keycloak_sample.Controllers
 {
-    public class HomeController : Controller
+    public class AccountController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<AccountController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public AccountController(ILogger<AccountController> logger)
         {
             _logger = logger;
+
+            _logger.LogInformation("Account controller created");
         }
 
         public IActionResult Index()
@@ -21,8 +20,14 @@ namespace dotnet8_keycloak_sample.Controllers
             return View();
         }
 
-        [Authorize]
-        public async Task<IActionResult> Privacy()
+        public IActionResult Test()
+        {
+            return View();
+        }
+
+        [HttpPost("/[controller]/login-callback")]
+        [HttpGet("/[controller]/login-callback")]
+        public async Task<IActionResult> LoginCallback()
         {
             _logger.LogInformation("Login callback invoked");
             var authResult = await HttpContext.AuthenticateAsync(OpenIdConnectDefaults.AuthenticationScheme);
@@ -39,15 +44,8 @@ namespace dotnet8_keycloak_sample.Controllers
             _logger.LogInformation("Access token: {0}", accessToken);
             _logger.LogInformation("Refresh token: {0}", refreshToken);
 
-            ViewData["access_token"] = accessToken;
-
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            // Redirect the user to the desired page
+            return RedirectToAction("Privacy");
         }
     }
 }

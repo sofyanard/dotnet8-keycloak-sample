@@ -4,6 +4,7 @@ namespace dotnet8_keycloak_sample
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Authentication.OpenIdConnect;
     using Microsoft.IdentityModel.Tokens;
+    using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
     public class Program
     {
@@ -31,17 +32,18 @@ namespace dotnet8_keycloak_sample
                     options.Authority = "http://localhost:8080/realms/myrealm";
                     options.ClientId = "myclient";
                     options.ClientSecret = "6WB0tAWZGm1m9j4HEpF4ucE7zwWcRiYM";
-                    options.ResponseType = "code";
+                    options.ResponseType = OpenIdConnectResponseType.Code;
+                    options.Scope.Add(OpenIdConnectScope.OpenIdProfile);
                     options.SaveTokens = true;
-                    options.Scope.Add("openid");
-                    options.CallbackPath = "/login-callback"; // Update callback path
-                    options.SignedOutCallbackPath = "/logout-callback"; // Update signout callback path
+                    options.CallbackPath = "/account/login-callback"; // Update callback path
+                    options.SignedOutCallbackPath = "/account/logout-callback"; // Update signout callback path
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         NameClaimType = "preferred_username",
                         RoleClaimType = "roles"
                     };
                     options.RequireHttpsMetadata = false;
+                    options.SkipUnrecognizedRequests = true;
                 });
 
             // Add services to the container.
