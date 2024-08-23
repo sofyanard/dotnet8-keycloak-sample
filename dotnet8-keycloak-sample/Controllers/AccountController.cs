@@ -48,6 +48,15 @@ namespace dotnet8_keycloak_sample.Controllers
             return RedirectToAction("Home", "Privacy");
         }
 
+        public async Task<IActionResult> Login()
+        {
+            _logger.LogInformation("Logging in...");
+            await HttpContext.ChallengeAsync(OpenIdConnectDefaults.AuthenticationScheme);
+
+            _logger.LogInformation("Redirecting to Privacy...");
+            return RedirectToAction("Privacy", "Home");
+        }
+
         public async Task<IActionResult> Logout()
         {
             _logger.LogInformation("Logging out...");
