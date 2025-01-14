@@ -44,6 +44,10 @@ namespace dotnet8_keycloak_sample
                     };
                     options.RequireHttpsMetadata = false;
                     options.SkipUnrecognizedRequests = true;
+                    options.BackchannelHttpHandler = new HttpClientHandler
+                    {
+                        ServerCertificateCustomValidationCallback = (message, cert, chain, sslPolicyErrors) => true
+                    };
                 });
 
             // Add services to the container.
