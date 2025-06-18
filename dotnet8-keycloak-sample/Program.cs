@@ -77,7 +77,9 @@ namespace dotnet8_keycloak_sample
                 loginCallbackApp.Run(async context =>
                 {
                     // Handle the callback from Keycloak after successful authentication
-                    await context.Response.WriteAsync("Authentication successful");
+                    // await context.Response.WriteAsync("Authentication successful");
+                    logger.LogInformation("Authentication successful");
+                    Results.Redirect("/home/privacy");
                 });
             });
 
