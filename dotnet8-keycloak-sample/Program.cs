@@ -50,6 +50,8 @@ namespace dotnet8_keycloak_sample
                     };
                 });
 
+            builder.Services.AddAuthorization();
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
