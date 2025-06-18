@@ -35,7 +35,7 @@ namespace dotnet8_keycloak_sample
                     options.ResponseType = OpenIdConnectResponseType.Code;
                     options.Scope.Add(OpenIdConnectScope.OpenIdProfile);
                     options.SaveTokens = true;
-                    options.CallbackPath = "/login-callback"; // Update callback path
+                    // options.CallbackPath = "/login-callback"; // Update callback path
                     options.SignedOutCallbackPath = "/logout-callback"; // Update signout callback path
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
