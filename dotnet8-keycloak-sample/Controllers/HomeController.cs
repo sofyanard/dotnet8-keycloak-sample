@@ -24,12 +24,13 @@ namespace dotnet8_keycloak_sample.Controllers
         [Authorize]
         public async Task<IActionResult> Privacy()
         {
-            _logger.LogInformation("Login callback invoked");
+            _logger.LogInformation("Privacy invoked");
             string accessToken = string.Empty;
             string refreshToken = string.Empty;
 
             try
             {
+                /*
                 var authResult = await HttpContext.AuthenticateAsync(OpenIdConnectDefaults.AuthenticationScheme);
 
                 if (authResult?.Succeeded != true)
@@ -46,14 +47,13 @@ namespace dotnet8_keycloak_sample.Controllers
                     _logger.LogError("Authentication failed: {0}", authResult.Failure.Message);
                     return RedirectToAction("Index");
                 }
+                */
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error during authentication check");
                 return RedirectToAction("Index");
             }
-
-            
 
             ViewData["access_token"] = accessToken;
 
