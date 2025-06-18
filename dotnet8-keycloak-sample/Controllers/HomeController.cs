@@ -25,19 +25,35 @@ namespace dotnet8_keycloak_sample.Controllers
         public async Task<IActionResult> Privacy()
         {
             _logger.LogInformation("Login callback invoked");
-            var authResult = await HttpContext.AuthenticateAsync(OpenIdConnectDefaults.AuthenticationScheme);
-            if (authResult?.Succeeded != true)
+            string accessToken = string.Empty;
+            string refreshToken = string.Empty;
+
+            try
             {
-                // Handle failed authentication
-                _logger.LogError("Authentication failed: {0}", authResult.Failure.Message);
+                var authResult = await HttpContext.AuthenticateAsync(OpenIdConnectDefaults.AuthenticationScheme);
+
+                if (authResult?.Succeeded != true)
+                {
+                    // Get the access token and refresh token
+                    accessToken = authResult.Properties.GetTokenValue("access_token");
+                    refreshToken = authResult.Properties.GetTokenValue("refresh_token");
+                    _logger.LogInformation("Access token: {0}", accessToken);
+                    _logger.LogInformation("Refresh token: {0}", refreshToken);
+                }
+                else
+                {
+                    // Handle failed authentication
+                    _logger.LogError("Authentication failed: {0}", authResult.Failure.Message);
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error during authentication check");
                 return RedirectToAction("Index");
             }
 
-            // Get the access token and refresh token
-            var accessToken = authResult.Properties.GetTokenValue("access_token");
-            var refreshToken = authResult.Properties.GetTokenValue("refresh_token");
-            _logger.LogInformation("Access token: {0}", accessToken);
-            _logger.LogInformation("Refresh token: {0}", refreshToken);
+            
 
             ViewData["access_token"] = accessToken;
 
