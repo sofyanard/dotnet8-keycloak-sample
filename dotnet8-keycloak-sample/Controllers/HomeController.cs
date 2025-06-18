@@ -22,6 +22,13 @@ namespace dotnet8_keycloak_sample.Controllers
             return View();
         }
 
+        public IActionResult Privacy()
+        {
+            _logger.LogInformation("Privacy invoked");
+            return View();
+        }
+
+        /*
         [Authorize]
         public async Task<IActionResult> Privacy()
         {
@@ -59,6 +66,7 @@ namespace dotnet8_keycloak_sample.Controllers
 
             return View();
         }
+        */
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
