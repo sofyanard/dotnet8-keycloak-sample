@@ -35,7 +35,7 @@ namespace dotnet8_keycloak_sample
                     options.ResponseType = OpenIdConnectResponseType.Code;
                     options.Scope.Add(OpenIdConnectScope.OpenIdProfile);
                     options.SaveTokens = true;
-                    // options.CallbackPath = "/login-callback"; // Update callback path
+                    options.CallbackPath = "/login-callback"; // Update callback path
                     options.SignedOutCallbackPath = "/logout-callback"; // Update signout callback path
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
@@ -74,7 +74,6 @@ namespace dotnet8_keycloak_sample
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             // Add routes for callback handling
-            /*
             app.Map("/login-callback", loginCallbackApp =>
             {
                 loginCallbackApp.Run(async context =>
@@ -83,10 +82,10 @@ namespace dotnet8_keycloak_sample
                     // await context.Response.WriteAsync("Authentication successful");
                     logger.LogInformation("Authentication successful");
                     context.Response.Redirect("/home/privacy");
+                    logger.LogInformation("Redirecting to /home/privacy");
                     await Task.CompletedTask;
                 });
             });
-            */
 
             app.Map("/logout-callback", logoutCallbackApp =>
             {
