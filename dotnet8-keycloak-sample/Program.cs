@@ -72,6 +72,7 @@ namespace dotnet8_keycloak_sample
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             // Add routes for callback handling
+            /*
             app.Map("/login-callback", loginCallbackApp =>
             {
                 loginCallbackApp.Run(async context =>
@@ -80,8 +81,10 @@ namespace dotnet8_keycloak_sample
                     // await context.Response.WriteAsync("Authentication successful");
                     logger.LogInformation("Authentication successful");
                     context.Response.Redirect("/home/privacy");
+                    await Task.CompletedTask;
                 });
             });
+            */
 
             app.Map("/logout-callback", logoutCallbackApp =>
             {
