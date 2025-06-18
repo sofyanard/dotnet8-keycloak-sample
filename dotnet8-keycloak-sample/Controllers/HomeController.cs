@@ -29,7 +29,6 @@ namespace dotnet8_keycloak_sample.Controllers
             string accessToken = string.Empty;
             string refreshToken = string.Empty;
 
-            /*
             try
             {
                 _logger.LogInformation("Checking authentication status...");
@@ -55,7 +54,6 @@ namespace dotnet8_keycloak_sample.Controllers
                 _logger.LogError(ex, "Error during authentication check");
                 return RedirectToAction("Index");
             }
-            */
 
             ViewData["access_token"] = accessToken;
 
