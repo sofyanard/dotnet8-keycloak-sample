@@ -82,7 +82,7 @@ namespace dotnet8_keycloak_sample
                     // await context.Response.WriteAsync("Authentication successful");
                     logger.LogInformation("Authentication successful");
                     context.Response.Redirect("/home/privacy");
-                    logger.LogInformation("Redirecting to /home/privacy");
+                    logger.LogInformation("Redirecting to /home/index");
                     await Task.CompletedTask;
                 });
             });

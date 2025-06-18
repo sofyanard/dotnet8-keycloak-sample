@@ -18,6 +18,7 @@ namespace dotnet8_keycloak_sample.Controllers
 
         public IActionResult Index()
         {
+            _logger.LogInformation("Index invoked");
             return View();
         }
 
