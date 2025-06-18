@@ -31,10 +31,10 @@ namespace dotnet8_keycloak_sample.Controllers
 
             try
             {
-                /*
+                _logger.LogInformation("Checking authentication status...");
                 var authResult = await HttpContext.AuthenticateAsync(OpenIdConnectDefaults.AuthenticationScheme);
 
-                if (authResult?.Succeeded != true)
+                if (authResult?.Succeeded == true)
                 {
                     // Get the access token and refresh token
                     accessToken = authResult.Properties.GetTokenValue("access_token");
@@ -48,7 +48,6 @@ namespace dotnet8_keycloak_sample.Controllers
                     _logger.LogError("Authentication failed: {0}", authResult.Failure.Message);
                     return RedirectToAction("Index");
                 }
-                */
             }
             catch (Exception ex)
             {
