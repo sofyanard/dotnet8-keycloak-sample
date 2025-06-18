@@ -23,20 +23,13 @@ namespace dotnet8_keycloak_sample.Controllers
         }
 
         [Authorize]
-        public IActionResult Privacy()
-        {
-            _logger.LogInformation("Privacy invoked");
-            return View();
-        }
-
-        /*
-        [Authorize]
         public async Task<IActionResult> Privacy()
         {
             _logger.LogInformation("Privacy invoked");
             string accessToken = string.Empty;
             string refreshToken = string.Empty;
 
+            /*
             try
             {
                 _logger.LogInformation("Checking authentication status...");
@@ -62,12 +55,12 @@ namespace dotnet8_keycloak_sample.Controllers
                 _logger.LogError(ex, "Error during authentication check");
                 return RedirectToAction("Index");
             }
+            */
 
             ViewData["access_token"] = accessToken;
 
             return View();
         }
-        */
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
