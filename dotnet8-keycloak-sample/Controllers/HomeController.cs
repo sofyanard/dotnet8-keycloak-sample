@@ -22,6 +22,7 @@ namespace dotnet8_keycloak_sample.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Privacy()
         {
             _logger.LogInformation("Privacy invoked");
