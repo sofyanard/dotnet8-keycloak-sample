@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotnet8_keycloak_sample.Controllers
@@ -60,7 +61,8 @@ namespace dotnet8_keycloak_sample.Controllers
         public async Task<IActionResult> Logout()
         {
             _logger.LogInformation("Logging out...");
-            await HttpContext.SignOutAsync();
+            await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return RedirectToAction("Index", "Home");
         }

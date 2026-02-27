@@ -48,6 +48,17 @@ namespace dotnet8_keycloak_sample
                     {
                         ServerCertificateCustomValidationCallback = (message, cert, chain, sslPolicyErrors) => true
                     };
+                    options.Events = new OpenIdConnectEvents
+                    {
+                        OnRedirectToIdentityProviderForSignOut = context =>
+                        {
+                            logger.LogInformation("Redirecting to identity provider for sign-out...");
+                            var logoutUri = $"{context.Options.Authority}/protocol/openid-connect/logout";
+                            context.Response.Redirect(logoutUri);
+                            context.HandleResponse();
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
 
             builder.Services.AddAuthorization();
